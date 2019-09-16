@@ -7,7 +7,7 @@ class FileView extends Component {
     constructor(props) {
         super(props);
             this.state = {
-                AddFileDialogOpen: false
+                isOpen: false,
             }
         }
     
@@ -17,12 +17,12 @@ class FileView extends Component {
     }
 
     toggleOpen = () => {
-        this.setState({AddFileDialogOpen: true});
+        this.setState({isOpen: true});
         console.log("toggleOpen: ", this.state)
     };
 
     toggleClose = () => {
-        this.setState({AddFileDialogOpen: false})
+        this.setState({isOpen: false})
     }
 
     render() {
@@ -34,10 +34,10 @@ class FileView extends Component {
                 icon={<Icon category="standard" name="document" size="small" />}
                 headerActions={<button type="button" onClick={this.toggleOpen}>Upload File</button>}
             >
-                <Modal show={this.state.AddFileDialog} handleClose={this.toggleClose}>
+                <Modal isOpen= {this.state.isOpen} show={this.state.isOpen} handleClose={this.toggleClose}>
                     <p>Upload Files Modal</p>
                 </Modal>
-                <DataTable>
+                {/* <DataTable items={this.state.items}>
                 <DataTableColumn
                     label="Title" />
                 <DataTableColumn
@@ -56,7 +56,7 @@ class FileView extends Component {
                 menuPostion="overflowBoundaryElement"
                 onAction={this.handleRowAction}
                 dropdown={<Dropdown dir="rtl" />}
-                />
+                /> */}
             </Card>
             </div>
         </IconSettings>
