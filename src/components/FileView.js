@@ -34,8 +34,8 @@ class FileView extends Component {
                 icon={<Icon category="standard" name="document" size="small" />}
                 headerActions={<button type="button" onClick={this.toggleOpen}>Upload File</button>}
             >
-                <Modal isOpen= {this.state.isOpen} show={this.state.isOpen} handleClose={this.toggleClose}>
-                    <p>Upload Files Modal</p>
+                <Modal title="File Upload" isOpen= {this.state.isOpen} handleClose={this.toggleClose}>
+                    <AddFileDialog onSave={this.fetchData} />
                 </Modal>
                 {/* <DataTable items={this.state.items}>
                 <DataTableColumn
