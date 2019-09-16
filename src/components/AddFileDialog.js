@@ -70,6 +70,7 @@ const AddFileDialog = ({handleClose, children, isOpen, props}) => {
         <section className="modal-main">
         <input id='fxFileInput' type="file" className="form-control" onChange={handleFileChange}/>
             {children}
+            <button onClick={uploadFile}>Upload</button>
             <button onClick={handleClose}>Close</button>
         </section>
     </div>
