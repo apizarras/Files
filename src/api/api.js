@@ -131,21 +131,21 @@ export const deleteFile = (connection, fileInfo) => {
 };
 
 
-export const uploadFile = (contentVersionData, onUploadProgress) => {
+export const uploadFile = (connection, parentId, contentVersionData, onUploadProgress) => {
   if(!contentVersionData) return Promise.reject();
 
   var requestConfig = {
         headers: {
           ContentType: 'application/json',
           Accept: 'application/json',
-          // 'Authorization': `Bearer ${connection.accessToken}`
+          'Authorization': `Bearer ${connection.accessToken}`
         },
         onUploadProgress: onUploadProgress || function noOp() {}
       };
 
   return new Promise(function(resolve, reject) {
 
-    return axios.post(`${appVersion === 'DEV' ? "connection.instanceUrl" : ''}/services/data/${apiVersion}/sobjects/ContentVersion/`, contentVersionData, requestConfig)
+    return axios.post(`${appVersion === 'DEV' ? connection.instanceUrl : ''}/services/data/${apiVersion}/sobjects/ContentVersion/`, contentVersionData, requestConfig)
       .then(function(){
         console.log(`>>>> File uploaded successfully : `, contentVersionData.Title);
       })

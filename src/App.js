@@ -3,12 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import FileView from './components/FileView';
 
-function App() {
-  return (
-    <div>
-      <FileView />
-    </div>
-  );
+export const App = props => {
+  const { connection } = props;
+
+  if (!connection) return null;
+
+  return (<FileView connection={connection} />);
+
 }
 
 export default App;
