@@ -1,7 +1,8 @@
 import React from 'react';
 import * as api from '../api/api';
+import { ProgressBar } from '@salesforce/design-system-react';
 
-const AddFileDialog = ({handleClose, children, isOpen, props}) => {
+const AddFileDialog = ({handleClose, children, isOpen, onSave, parentId, connection}) => {
     const showHideClassName = isOpen ? "modal display-block" : "modal display-none";
     // const { onSave } = props;
     // const [isOpen, setIsOpen] = React.useState(false);
@@ -18,7 +19,7 @@ const AddFileDialog = ({handleClose, children, isOpen, props}) => {
       }
     
       function saveAndClose() {
-        // onSave();
+        onSave();
         // setIsOpen(false);
       }
 
@@ -34,24 +35,25 @@ const AddFileDialog = ({handleClose, children, isOpen, props}) => {
         setShowPercentCompleted(true);
     
         var reader = new FileReader();
-    
+
         return new Promise(function(resolve, reject){
           reader.onload = function( e ) {
             var fileData = btoa( e.target.result );
     
             var contentVersionData = {
-                // "FirstPublishLocationId": parentId,
+                "FirstPublishLocationId": parentId,
                 "Title": file.name,
                 "PathOnClient": file.name,
                 "VersionData": fileData
               };
-    
             const onUploadProgress = function(progressEvent) {
+                console.log("progress event: ", progressEvent);
               setPercentCompleted( Math.round( (progressEvent.loaded * 100) / progressEvent.total ));
               console.log(`%c>>>> percentCompleted `, `background-color: yellow;` , percentCompleted, progressEvent );
             };
-    
-            return api.uploadFile( contentVersionData, onUploadProgress )
+    console.log("percent Completed: ", percentCompleted);
+
+            return api.uploadFile( connection, parentId, contentVersionData, onUploadProgress )
               .then(resolve, reject);
           };
     
@@ -66,12 +68,15 @@ const AddFileDialog = ({handleClose, children, isOpen, props}) => {
     
     return (
     <div
-        className={showHideClassName} isOpen={isOpen}>
+        className={showHideClassName} isopen={isOpen}>
         <section className="modal-main">
         <input id='fxFileInput' type="file" className="form-control" onChange={handleFileChange}/>
             {children}
+            { console.log("percent complete: ", percentCompleted)}
+            {showPercentCompleted && <ProgressBar value={percentCompleted} progress color='success' error={uploadError} />}
+
             <button onClick={uploadFile}>Upload</button>
-            <button onClick={handleClose}>Close</button>
+            <button onClick={handleClose}>Cancel</button>
         </section>
     </div>
     )

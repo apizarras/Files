@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Icon, IconSettings, Card, Button, DataTable, DataTableColumn, DataTableRowActions, Dropdown, Modal }  from '@salesforce/design-system-react';
+import { Icon, IconSettings, Card, Modal }  from '@salesforce/design-system-react';
 import './FileView.css';
 import AddFileDialog from './AddFileDialog';
 import * as api from '../api/api';
+import queryString from 'query-string';
 
 class FileView extends Component {
     constructor(props) {
@@ -16,6 +17,9 @@ class FileView extends Component {
                 isDirty: false,
                 fileToDelete: null,
                 showDeletePrompt: false,
+                embedded: (window.FX && window.FX.SALESFORCE && window.FX.SALESFORCE.embedded) || (queryString.parse(document.location.search).embedded && JSON.parse(queryString.parse(document.location.search).embedded)) || false,
+                sObjectId: (window.FX && window.FX.SALESFORCE && window.FX.SALESFORCE.currentObjectId) || queryString.parse(document.location.search).id
+
             }
         }
     
@@ -70,33 +74,14 @@ class FileView extends Component {
                 icon={<Icon category="standard" name="document" size="small" />}
                 headerActions={<button type="button" onClick={this.toggleOpen}>Upload File</button>}
             >
-                <Modal title="File Upload" isOpen= {this.state.isOpen} handleClose={this.toggleClose}>
+                <Modal heading="File Upload" isOpen= {this.state.isOpen} handleClose={this.toggleClose} ariaHideApp={false}>
+                    { console.log("sObjectId, ", this.state.sObjectId)}
                     <AddFileDialog
                         onSave={this.fetchData}
-                        // connection={connection}
-                        // parentId={sObjectId} 
+                        connection={this.props.connection}
+                        parentId={this.state.sObjectId} 
                         />
                 </Modal>
-                {/* <DataTable items={this.state.items}>
-                <DataTableColumn
-                    label="Title" />
-                <DataTableColumn
-                    label="Owner" />
-                <DataTableColumn
-                    label="Last Modified" />
-                <DataTableColumn
-                    label="Last Modified By" />
-                </DataTable>
-                <DataTableRowActions
-                options={[
-                {label: "Preview"},
-                {label: "Delete"},
-                {label: "Dowload"}
-                ]}
-                menuPostion="overflowBoundaryElement"
-                onAction={this.handleRowAction}
-                dropdown={<Dropdown dir="rtl" />}
-                /> */}
             </Card>
             </div>
         </IconSettings>

@@ -117,9 +117,8 @@ const styles = {
   },
   segment: { width: 350, margin: "0 auto" },
   logout: {
-    position: "absolute",
-    top: 0,
-    right: 0,
+    top: "2vw",
+    left: "2vw",
     padding: "10px 12px 8px 10px",
     margin: -3,
     boxShadow: "0 0 0 1px #fff, 0 2px 6px 2px rgba(0,0,0,.5)",
