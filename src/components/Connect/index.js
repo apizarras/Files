@@ -29,8 +29,6 @@ class Connect extends Component {
 
   authenticate = (e, { value }) => {
     e.preventDefault();
-      console.log("authenticate", this.state);
-      console.log("authenticate value", value);
 
     value = "PRODUCTION";
 
@@ -88,7 +86,6 @@ class Connect extends Component {
           <input type="text" name="username" value={this.state.username} placeholder="username" onChange={this.handleInputChange} />
         <label>Password:</label>
           <input type="password" name="password" value={this.state.password} placeholder="password" onChange={this.handleInputChange} />
-        { console.log("form input", this.state) }
         <Button label="PRODUCTION" value={PRODUCTION} onClick={this.authenticate} />
         <Button label="SANDBOX" value={SANDBOX} onClick={this.authenticate} />
       </form>

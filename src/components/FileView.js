@@ -34,7 +34,8 @@ class FileView extends Component {
     };
 
     toggleClose = () => {
-        this.setState({isOpen: false})
+        this.setState({isOpen: false});
+        console.log("toggleClose: ", this.state.isOpen)
     }
 
     fetchData = () => {
@@ -56,6 +57,7 @@ class FileView extends Component {
           })
           .then(([files, objectName]) => {
             this.setState({ files, objectName, isBusy: false });
+            console.log("files state: ", this.state.files);
           })
           .catch(function(err) {
             if (err.errorCode === 'INVALID_SESSION_ID') {
@@ -74,14 +76,16 @@ class FileView extends Component {
                 icon={<Icon category="standard" name="document" size="small" />}
                 headerActions={<button type="button" onClick={this.toggleOpen}>Upload File</button>}
             >
-                <Modal heading="File Upload" isOpen= {this.state.isOpen} handleClose={this.toggleClose} ariaHideApp={false}>
+                <Modal heading="File Upload" isOpen={this.state.isOpen} ariaHideApp={false}>
                     { console.log("sObjectId, ", this.state.sObjectId)}
                     <AddFileDialog
                         onSave={this.fetchData}
                         connection={this.props.connection}
-                        parentId={this.state.sObjectId} 
+                        parentId={this.state.sObjectId}
+                        handleClose={this.toggleClose}
                         />
                 </Modal>
+                
             </Card>
             </div>
         </IconSettings>

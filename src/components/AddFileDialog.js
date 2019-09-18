@@ -1,11 +1,11 @@
 import React from 'react';
 import * as api from '../api/api';
-import { ProgressBar } from '@salesforce/design-system-react';
+import { ProgressBar, SetupAssistantStep } from '@salesforce/design-system-react';
+import { NONAME } from 'dns';
 
 const AddFileDialog = ({handleClose, children, isOpen, onSave, parentId, connection}) => {
-    const showHideClassName = isOpen ? "modal display-block" : "modal display-none";
+    const showHideModal = isOpen ? "modal display-block" : "modal display-none";
     // const { onSave } = props;
-    // const [isOpen, setIsOpen] = React.useState(false);
     const [percentCompleted, setPercentCompleted] = React.useState(null);
     const [showPercentCompleted, setShowPercentCompleted] = React.useState(false);
     const [uploadError, setUploadError] = React.useState(null);
@@ -68,7 +68,7 @@ const AddFileDialog = ({handleClose, children, isOpen, onSave, parentId, connect
     
     return (
     <div
-        className={showHideClassName} isopen={isOpen}>
+        className={showHideModal} isopen={isOpen}>
         <section className="modal-main">
         <input id='fxFileInput' type="file" className="form-control" onChange={handleFileChange}/>
             {children}
