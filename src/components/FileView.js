@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
-import { Icon, IconSettings, Card, Modal }  from '@salesforce/design-system-react';
+import { Icon, IconSettings, Card, Modal, DataTable, DataTableColumn, DataTableCell }  from '@salesforce/design-system-react';
 import './FileView.css';
 import AddFileDialog from './AddFileDialog';
 import * as api from '../api/api';
 import queryString from 'query-string';
+import FileDataTable from './FileDataTable';
+
+const columns = [
+  <DataTableColumn
+    key="file-name"
+    label="File Name"
+    property="fileName"
+  />,
+  <DataTableColumn
+    key="last-modified-date"
+    label="Last Modified Date"
+    property="lastModifiedDate"
+  />
+]
 
 class FileView extends Component {
     constructor(props) {
         super(props);
             this.state = {
                 isOpen: false,
+                files: [],
                 connection: props.connection,
                 parentId: null,
                 sessionExpired: false,
@@ -22,7 +37,6 @@ class FileView extends Component {
 
             }
         }
-    
 
     componentDidMount() {
         console.log("component did mount", this.state)
@@ -30,7 +44,7 @@ class FileView extends Component {
 
     toggleOpen = () => {
         this.setState({isOpen: true});
-        console.log("toggleOpen: ", this.state)
+        console.log("toggleOpen: ", this.state.isOpen);
     };
 
     toggleClose = () => {
@@ -85,7 +99,10 @@ class FileView extends Component {
                         handleClose={this.toggleClose}
                         />
                 </Modal>
-                
+                <DataTable>
+                  {columns}
+                </DataTable>
+              <FileDataTable files={this.state.files} />
             </Card>
             </div>
         </IconSettings>
